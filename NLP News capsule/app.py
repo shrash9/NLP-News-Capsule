@@ -23,9 +23,9 @@ def extractive():
 def abstractive():
     if request.method == 'POST':
         text = request.form['text']
-        if not text:
-            return render_template('error.html', error='Please provide text to summarize.')
-        summary = summarize_abstractive(text)
+        length = int(request.form.get('length', 100))
+        lang = request.form.get('lang', 'en')
+        summary = summarize_abstractive(text, max_length=length, lang=lang)
         return render_template('abstractive.html', summary=summary)
     return render_template('abstractive.html')
 
