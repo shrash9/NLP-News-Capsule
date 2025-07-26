@@ -8,15 +8,27 @@ app = Flask(__name__)
 def index():
     return render_template('extractive.html')
 
+# @app.route('/extractive', methods=['GET', 'POST'])
+# def extractive():
+#     if request.method == 'POST':
+#         text = request.form.get('text', '')   # <-- changed!
+#         if not text:
+#             return render_template('error.html', error='Please provide text to summarize.')
+#         summary = summarize_extractive(text)
+#         return render_template('extractive.html', summary=summary)
+#     return render_template('extractive.html')
 @app.route('/extractive', methods=['GET', 'POST'])
 def extractive():
     if request.method == 'POST':
-        text = request.form.get('text', '')   # <-- changed!
+        text = request.form.get('text', '')
+        length = int(request.form.get('length', 3))
         if not text:
             return render_template('error.html', error='Please provide text to summarize.')
-        summary = summarize_extractive(text)
+        summary = summarize_extractive(text, num_sentences=length)
         return render_template('extractive.html', summary=summary)
     return render_template('extractive.html')
+
+
 
 # @app.route('/abstractive', methods=['GET', 'POST'])
 # def abstractive():
